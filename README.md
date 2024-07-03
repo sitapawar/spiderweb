@@ -1,6 +1,5 @@
 # spiderweb
 Network visualizer tool
--------------------------------
 
 # Getting Started with Create React App
 
