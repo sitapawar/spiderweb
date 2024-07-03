@@ -5,6 +5,8 @@ Network visualizer tool
 Network graph visual uses this library (https://www.npmjs.com/package/react-graph-vis). Run this in the project directory to install
 ### `npm i react-graph-vis` 
 
+Tutorial from (https://github.com/recoding-io/react-videos) graph-viz
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
