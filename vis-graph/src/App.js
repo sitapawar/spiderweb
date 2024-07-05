@@ -1,20 +1,14 @@
 import logo from './logo.svg';
-import './style/App.css';
-import Navbar from './components/navbar';
+import './App.css';
 import GraphView from './components/graph';
-
+import Navbar from './components/navbar';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
       <Navbar />
-      </header>
-      <div className='App-Body'>
       <GraphView />
-      </div>
     </div>
   );
 }
-
 export default App;
