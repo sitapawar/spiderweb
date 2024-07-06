@@ -3,13 +3,16 @@ import './App.css';
 import GraphView from './components/graph';
 import Navbar from './components/navbar';
 import WorldCup from './components/worldcup';
+import Ariosto from './components/ariosto';
+
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       {/* <GraphView /> */}
-      <WorldCup />
+      <WorldCup/>
+      {/* <Ariosto /> */}
     </div>
   );
 }
