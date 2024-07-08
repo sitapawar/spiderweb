@@ -11,23 +11,23 @@ const GraphComponent = ({ nodes, links }) => {
     const width = 800;
     const height = 600;
 
-    // using graphology to do this, so we make a graph using it that takes in the nodes from the data
+    // Create a graphology graph
     const graph = new Graph();
     nodes.forEach(node => graph.addNode(node.id, { ...node }));
     links.forEach(link => graph.addEdge(link.source, link.target));
 
-    // this does the community detection from the louvain algorithm
+    // Perform community detection
     const communities = louvain.assign(graph);
     graph.forEachNode((node, attr) => {
       attr.community = communities[node];
     });
 
-    // this does the force layout method, we can play with the settings
+    // Perform force layout
     forceAtlas2.assign(graph, {
       iterations: 200,
       settings: { gravity: 1, scalingRatio: 2 },
     });
-    // these are some standard node visual settings
+
     const svg = d3.select(svgRef.current)
                   .attr('width', width)
                   .attr('height', height);
@@ -53,10 +53,6 @@ const GraphComponent = ({ nodes, links }) => {
                           .on('end', dragended));
 
     node.append('title').text(d => d.id);
-
-    graph.forEachNode((node, attr) => {
-      d3.select(`[data-node-id="${node}"]`).datum(attr);
-    });
 
     function ticked() {
       link.attr('x1', d => d.source.x)
@@ -96,5 +92,3 @@ const GraphComponent = ({ nodes, links }) => {
 };
 
 export default GraphComponent;
-
-

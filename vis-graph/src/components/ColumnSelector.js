@@ -8,10 +8,7 @@ const ColumnSelector = ({ columns, onColumnSelected }) => {
     e.preventDefault();
     onColumnSelected(nodeColumn, relationshipColumn);
   };
-  //form that lets user select node and relationship column
-  //can add more cols to this in the future
-  // JACK MAKE SURE YOU CHANGE THE RELATIONSHIP COLUMN FORMAT THING
-  // bidirectional and two diff relationships between people add higher roundness (ex: love hate)
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
