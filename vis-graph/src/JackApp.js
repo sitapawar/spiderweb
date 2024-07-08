@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import "./JackApp.css"
 import FileUpload from './components/FileUpload';
-import GraphComponent from './components/Graph';
+import GraphComponent from './components/d3Graph';
 
-function App() {
+function JackApp() {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
 
@@ -20,7 +21,7 @@ function App() {
   };
   //should be making the simple version of the App based on the graphing here
   return (
-    <div className="App">
+    <div className="JackApp">
       <h1>Excel to Graph Network</h1>
       <FileUpload onFileProcessed={handleFileProcessed} />
       <GraphComponent nodes={nodes} links={links} />
@@ -28,4 +29,4 @@ function App() {
   );
 }
 
-export default App;
+export default JackApp;
