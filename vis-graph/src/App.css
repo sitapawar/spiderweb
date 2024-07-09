@@ -2,6 +2,11 @@ body{
   background-color: white;
 }
 
+.mygraph{
+  background-color: black;
+  height: 200px;
+}
+
 .container {
   display: flex;
   justify-content: center;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import ColumnSelector from './ColumnSelector';
 
-
 const FileUpload = ({ onFileProcessed }) => {
   const [file, setFile] = useState(null);
   const [columns, setColumns] = useState([]);
@@ -26,8 +25,8 @@ const FileUpload = ({ onFileProcessed }) => {
     reader.readAsArrayBuffer(file);
   };
 
-  const handleColumnSelection = (nodeColumn, relationshipColumn) => {
-    onFileProcessed(data, columns, nodeColumn, relationshipColumn);
+  const handleColumnSelection = ({ id, title, label, group, to, from, relationshipLabel }) => {
+    onFileProcessed(data, columns, id, title, label, group, to, from, relationshipLabel);
   };
 
   return (
@@ -42,4 +41,3 @@ const FileUpload = ({ onFileProcessed }) => {
 };
 
 export default FileUpload;
-
