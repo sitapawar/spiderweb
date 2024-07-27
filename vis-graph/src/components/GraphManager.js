@@ -8,6 +8,7 @@ const GraphManager = () => {
   const [fileUploaded, setFileUploaded] = useState(false);
 
   const handleFileProcessed = (jsonData, columns, id, title, label, group, to, from, Rlabel) => {
+    console.log("Processed Data:", jsonData);  // Log processed data
     const data = jsonData.slice(1); // Skip the header row
     const nodes = data.map(row => ({ 
       id: row[columns.indexOf(id)],
