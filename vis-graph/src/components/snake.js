@@ -1,5 +1,6 @@
 import React from 'react'
-
+import GraphManager from './GraphManager';
+import '../style/snake.css'
 
 class Snake extends React.Component {
     constructor(props) {
@@ -7,16 +8,6 @@ class Snake extends React.Component {
       this.state = {apiResponse: ""};
     }
 
-    // callAPI() {
-    //     fetch("http://127.0.0.1:5000", { mode: 'no-cors' })
-    //       .then(res => res.text())
-    //       .then(res => console.log(res))
-    //       .then(res => this.setState({ apiResponse: res }))
-    //       .catch(error => {
-    //         console.error('There has been a problem with your fetch operation:', error);
-    //         this.setState({ apiResponse: 'Error: ' + error.message });
-    //       });
-    //   }
     callAPI() {
         fetch("http://127.0.0.1:5000")
           .then(res => {
@@ -43,9 +34,8 @@ class Snake extends React.Component {
     render() {
       return (
         <div className="Snake">
-          <header className="Snake-text">
             <p>{this.state.apiResponse}</p>
-          </header>
+            <GraphManager />
         </div>
       );
     }

@@ -1,28 +1,33 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import ColumnSelector from './ColumnSelector';
+import '../style/fileUpload.css';
 
 const FileUpload = ({ onFileProcessed }) => {
   const [file, setFile] = useState(null);
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState(null);
+  const [fileName, setFileName] = useState('No file chosen'); // State for file name
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    setFileName(selectedFile ? selectedFile.name : 'No file chosen'); // Update file name
   };
 
   const handleFileUpload = () => {
+    if (!file) return; // Prevent processing if no file is selected
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      const columns = jsonData[0]; // First row as columns
+      const columns = jsonData[0];
       setColumns(columns);
-      setData(jsonData); // Save data for further processing
+      setData(jsonData);
 
-      // Send data to the server
       fetch('http://127.0.0.1:5000/recieve_data', {
         method: 'POST',
         headers: {
@@ -32,7 +37,6 @@ const FileUpload = ({ onFileProcessed }) => {
       })
         .then((response) => response.json())
         .then((serverData) => {
-          // Handle the server response
           console.log(serverData);
           onFileProcessed(serverData, columns);
         })
@@ -48,58 +52,36 @@ const FileUpload = ({ onFileProcessed }) => {
   };
 
   return (
-    <div>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleFileUpload}>Upload</button>
-      {columns.length > 0 && (
-        <ColumnSelector columns={columns} onColumnSelected={handleColumnSelection} />
-      )}
+    <div className="file-upload-container">
+      <div className="file-input-wrapper">
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className="file-input"
+        />
+        <button className="custom-file-button">
+          Choose File
+        </button>
+        <p>{fileName}</p>
+
+      </div>
+      <button onClick={handleFileUpload} className="upload-button">
+        Upload
+      </button>
     </div>
+    
+    // <div className="file-upload-container">
+    //   <input
+    //     type="file"
+    //     onChange={handleFileChange}
+    //     className="file-input"
+    //   />
+    //   <p className="file-name">{fileName}</p> {/* Display the file name */}
+    //   <button onClick={handleFileUpload} className="upload-button">
+    //     Upload
+    //   </button>
+    // </div>
   );
 };
 
 export default FileUpload;
-
-// import React, { useState } from 'react';
-// import * as XLSX from 'xlsx';
-// import ColumnSelector from './ColumnSelector';
-
-// const FileUpload = ({ onFileProcessed }) => {
-//   const [file, setFile] = useState(null);
-//   const [columns, setColumns] = useState([]);
-//   const [data, setData] = useState(null);
-
-//   const handleFileChange = (e) => {
-//     setFile(e.target.files[0]);
-//   };
-
-//   const handleFileUpload = () => {
-//     const reader = new FileReader();
-//     reader.onload = (e) => {
-//       const data = new Uint8Array(e.target.result);
-//       const workbook = XLSX.read(data, { type: 'array' });
-//       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-//       const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-//       const columns = jsonData[0]; // First row as columns
-//       setColumns(columns);
-//       setData(jsonData); // Save data for further processing
-//     };
-//     reader.readAsArrayBuffer(file);
-//   };
-
-//   const handleColumnSelection = ({ id, title, label, group, to, from, relationshipLabel }) => {
-//     onFileProcessed(data, columns, id, title, label, group, to, from, relationshipLabel);
-//   };
-
-//   return (
-//     <div>
-//       <input type="file" onChange={handleFileChange} />
-//       <button onClick={handleFileUpload}>Upload</button>
-//       {columns.length > 0 && (
-//         <ColumnSelector columns={columns} onColumnSelected={handleColumnSelection} />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default FileUpload;

@@ -11,10 +11,12 @@ const Navbar = () => {
         <div className="navbar-title">Spiderweb</div>
         </div>
       <div className="navbar-buttons">
-        <button className="navbar-button">Home</button>
-        <button className="navbar-button">Upload</button>
-        <button className="navbar-button">Menu</button>
-        <button className="navbar-button">Search</button>
+        <button className="navbar-button">Reset</button>
+        <button className="navbar-button">Filter</button>
+        <button className="navbar-button">Group</button>
+        <button className="navbar-button">
+          Upload
+        </button>
       </div>
     </nav>
   );

@@ -13,7 +13,7 @@ CORS(app)  # This will enable CORS for all routes
 @app.route('/')
 def home():
     print('running')
-    return "Hello, Flask!"
+    return "connected to backend!"
 
 # https://www.geeksforgeeks.org/pass-javascript-variables-to-python-in-flask/
 

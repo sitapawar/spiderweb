@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import FileUpload from './FileUpload';
 import TestGraph from './graphTest';
+import '../style/graphManager.css'
+
 
 const GraphManager = () => {
   const [nodes, setNodes] = useState([]);
@@ -48,12 +50,10 @@ const GraphManager = () => {
   ];
 
   return (
-    <div>
-      <h1>Excel to Graph Network</h1>
+    <div className="CenteredContent">
       {!fileUploaded && <FileUpload onFileProcessed={handleFileProcessed} />}
-      {fileUploaded &&
-        <TestGraph nodes={nodes} edges={links} />
-      }    </div>
+      {fileUploaded && <TestGraph nodes={nodes} edges={links} />}
+    </div>
   );
 };
 

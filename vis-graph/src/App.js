@@ -7,13 +7,25 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-<br></br><br></br><br></br><br></br><br></br>
-      <Snake />
-      <GraphManager />
-
+      <div className="Main"><Snake />
+      </div>
     </div>
-
   );
 }
-
 export default App;
+
+// function App() {
+//   const [fileUploaded, setFileUploaded] = useState(false);
+//   const handleUploadClick = () => {
+//     setFileUploaded(false); // Set fileUploaded to false
+//   };
+
+//   return (
+//     <div className="App">
+//       <Navbar onUploadClick={handleUploadClick} />
+//       <div className="Main"><Snake />
+//       </div>
+//     </div>
+
+//   );
+// }
