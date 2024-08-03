@@ -31,7 +31,13 @@ def recieve_data():
         data_json = df.to_json(orient='records')
         
         return data_json
+
+def list_filters(data):
+    return data['group'].unique()
     
+def apply_filter(data, chosen_filter):
+    filtered_data = data[data['group']==chosen_filter]
+    return filtered_data
     
 if __name__ == '__main__':
     app.run(debug=True)
