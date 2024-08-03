@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import FileUpload from './FileUpload';
 import TestGraph from './graphTest';
-import '../style/graphManager.css'
+import '../style/graphManager.css';
 
-
-const GraphManager = () => {
+const GraphManager = ({ fileUploaded, setFileUploaded }) => {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
-  const [fileUploaded, setFileUploaded] = useState(false);
 
   const handleFileProcessed = (jsonData, columns, id, title, label, group, to, from, Rlabel) => {
     const data = jsonData.slice(1); // Skip the header row

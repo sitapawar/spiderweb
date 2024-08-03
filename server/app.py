@@ -8,6 +8,7 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
 
+
 # https://stackoverflow.com/questions/31252791/flask-importerror-no-module-named-flask
 
 @app.route('/')
@@ -22,7 +23,7 @@ def recieve_data():
     if request.method == "POST":
         data = request.get_json()  # Assuming the data is sent as JSON
         # Convert the JSON data to a pandas DataFrame
-        df = pd.DataFrame(data)
+        df = pd.DataFrame(data[1:], columns=data[0])  # Use the first row as columns
         
         # Do Stuff Here with the DataFrame
         print(df.head())  # Print the first few rows of the DataFrame for debugging

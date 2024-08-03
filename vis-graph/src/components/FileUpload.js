@@ -7,7 +7,7 @@ const FileUpload = ({ onFileProcessed }) => {
   const [file, setFile] = useState(null);
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState(null);
-  const [fileName, setFileName] = useState('No file chosen'); // State for file name
+  const [nodeFile, setFileName] = useState('No file chosen'); // State for file name
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -53,7 +53,8 @@ const FileUpload = ({ onFileProcessed }) => {
 
   return (
     <div className="file-upload-container">
-      <div className="file-input-wrapper">
+      <div>
+<div className="file-input-wrapper">
         <input
           type="file"
           onChange={handleFileChange}
@@ -62,9 +63,10 @@ const FileUpload = ({ onFileProcessed }) => {
         <button className="custom-file-button">
           Choose File
         </button>
-        <p>{fileName}</p>
-
+        <p>{nodeFile}</p>
       </div>
+      </div>
+      
       <button onClick={handleFileUpload} className="upload-button">
         Upload
       </button>
