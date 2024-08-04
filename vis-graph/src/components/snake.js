@@ -32,12 +32,16 @@ class Snake extends React.Component {
   }
 
   render() {
-    const { fileUploaded, otherVariable } = this.props; // Get props
+    const { fileUploaded, setFileUploaded, showTableView } = this.props; // Get props
 
     return (
       <div className="Snake">
         <p>{this.state.apiResponse}</p>
-        <GraphManager fileUploaded={this.props.fileUploaded} setFileUploaded={this.props.setFileUploaded} />
+        <GraphManager
+          fileUploaded={fileUploaded}
+          setFileUploaded={setFileUploaded}
+          showTableView={showTableView} // Pass showTableView to GraphManager
+        />
       </div>
     );
   }

@@ -1,0 +1,24 @@
+/* tableView.css */
+
+.TableView {
+    margin: 20px;
+  }
+  
+  .TableView button {
+    margin-bottom: 10px;
+  }
+  
+  .TableView table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .TableView th, .TableView td {
+    border: 1px solid #BCC1CC;
+    padding: 8px;
+  }
+  
+  .TableView th {
+    background-color: #D2D9E5;
+  }
+  

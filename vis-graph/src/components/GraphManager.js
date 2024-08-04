@@ -1,39 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FileUpload from './FileUpload';
 import TestGraph from './graphTest';
+import TableView from './TableView'; 
 import '../style/graphManager.css';
 
-const GraphManager = () => {
+const GraphManager = ({ fileUploaded, setFileUploaded, showTableView }) => {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
-  const [fileUploaded, setFileUploaded] = useState(false);
+  const [allNodes, setAllNodes] = useState([]);
+  const [viewType, setViewType] = useState('nodes'); // State to toggle between nodes and edges
 
-  // Function to handle the processed file data
+  useEffect(() => {
+    console.log('Nodes:', nodes);
+    console.log('Links:', links);
+    console.log('All Nodes:', allNodes);
+
+  }, [nodes, links, allNodes]);
+
   const handleFileProcessed = (serverData) => {
     try {
       // Parse JSON strings from serverData
       const nodesData = JSON.parse(serverData.sheet1);
       const edgesData = JSON.parse(serverData.sheet2);
 
-      // Process nodesData to ensure only the relevant columns are used
+      // Process nodesData
       const processedNodes = nodesData.map(item => ({
-        id: item.ID,        // Adjust these keys based on your actual data structure
+        id: item.ID,
         title: item.Title,
-        label: item.Label,
+        label: `Description: ${item.Label} Allegiance: ${item.group1}`,
       }));
   
-      // Process edgesData to ensure only the relevant columns are used
+      // Process edgesData
       const processedEdges = edgesData.map(item => ({
-        from: item.from,    // Adjust these keys based on your actual data structure
+        from: item.from,
         to: item.to,
-        label: item.label
+        label: item.label,
+        arrows: item.arrows,
       }));
+  
       // Update the state with processed data
       setNodes(processedNodes);
       setLinks(processedEdges);
-      console.log(nodes)
-      console.log(links)
-  
+      setAllNodes(nodesData);
+
       // Set fileUploaded to true
       setFileUploaded(true);
     } catch (error) {
@@ -44,7 +53,21 @@ const GraphManager = () => {
   return (
     <div className="CenteredContent">
       {!fileUploaded && <FileUpload onFileProcessed={handleFileProcessed} />}
-      {fileUploaded && <TestGraph nodes={nodes} edges={links} />}
+      {fileUploaded && (
+        <div className="graph-container">
+          <TestGraph nodes={nodes} edges={links} />
+          {showTableView && (
+            <div className="table-view-overlay">
+              <TableView 
+                nodes={allNodes} 
+                edges={links} 
+                viewType={viewType}
+                setViewType={setViewType} // Pass the viewType and setter to TableView
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -2,8 +2,7 @@ import React from 'react';
 import '../style/navbar.css';
 import logo from '../assets/spiderweb_logo.png';
 
-
-const Navbar = ({ onUploadClick, onResetClick }) => {
+const Navbar = ({ onUploadClick, onResetClick, showTableView, toggleTableView }) => {
   return (
     <nav className="navbar">
       <div className="title-logo">
@@ -15,6 +14,9 @@ const Navbar = ({ onUploadClick, onResetClick }) => {
         <button className="navbar-button">Filter</button>
         <button className="navbar-button">Group</button>
         <button className="navbar-button" onClick={onUploadClick}>Upload</button>
+        <button className="navbar-button" onClick={toggleTableView}>
+          {showTableView ? 'Hide Table View' : 'Show Table View'}
+        </button>
       </div>
     </nav>
   );

@@ -4,7 +4,6 @@ from flask import request
 import pandas as pd
 import json
 
-
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
 
@@ -31,16 +30,21 @@ def recieve_data():
         sheet2_df = pd.DataFrame(sheet2_data[1:], columns=sheet2_data[0])  # Use the first row as columns
        
         # Select only the first three columns
-        sheet1_df = sheet1_df.iloc[:, :3]
-        sheet2_df = sheet2_df.iloc[:, :3]
+        # sheet1_df = sheet1_df.iloc[:, :3]
+        # sheet2_df = sheet2_df.iloc[:, :3]
         # Example processing
+        # test = fix_naming(sheet1_df)
+        sheet2_df = fix_edges(sheet1_df, sheet2_df)
+
+        # print("fix names:")
+        # print(test.head())
+
         print("Sheet 1 DataFrame:")
         print(sheet1_df.head())
         print("Sheet 2 DataFrame:")
         print(sheet2_df.head())
-        
-        sheet1_df = fix_naming(sheet1_df)
-        sheet2_df = fix_edges(sheet1_df, sheet2_df)
+
+        sheet2_df=mutual_labels(sheet2_df)
 
         # Return processed data as JSON
         response = {
@@ -71,6 +75,13 @@ def recieve_data():
 #2. list options within chosen group (list_filters)
 #3. store original names as array and map them b
 
+def mutual_labels(sheet):
+# Process 'mutual' column if it exists in sheet2_df
+    if 'mutual' in sheet.columns:
+        sheet['arrows'] = sheet['mutual'].apply(lambda x: {'to': True, 'from': True} if x == True else None)
+        sheet = sheet.drop(columns=['mutual'])  # Drop the original 'mutual' column
+    return sheet
+
 def list_group_names(sheet1_df):
     col_name_list = list(sheet1_df.columns.values)
     return col_name_list[4:]
@@ -92,19 +103,20 @@ def filter_by_group(sheet1_df, sheet2_df, chosen_filter, chosen_group_number):
     return filtered_sheet1_df, filtered_sheet2_df
 
 def fix_naming(sheet1_df):
-    sheet1_df.columns.values[0] = 'id'
-    sheet1_df.columns.values[1] = 'name'
-    sheet1_df.columns.values[2] = 'label'
-    sheet1_df.columns.values[3] = 'value'
+    sheet = sheet1_df
+    sheet.columns.values[0] = 'id'
+    sheet.columns.values[1] = 'name'
+    sheet.columns.values[2] = 'label'
+    sheet.columns.values[3] = 'value'
 
     
-    group_columns = sheet1_df.columns[4:]
+    group_columns = sheet.columns[4:]
     
     #gonna rename the other group columns to group1, group2, etc.
     for i, col in enumerate(group_columns, start=1):
-        sheet1_df.rename(columns={col: f'group{i}'}, inplace=True)
+        sheet.rename(columns={col: f'group{i}'}, inplace=True)
     
-    return sheet1_df
+    return sheet
 
 ##IF GROUP IS ARRAY
 #need a diff list filters
@@ -140,7 +152,7 @@ def fix_naming_array(sheet1_df):
 
 def fix_edges(sheet1_df, sheet2_df):
     # Create a dictionary to map names to ids
-    name_to_id = pd.Series(sheet1_df.id.values, index=sheet1_df.name).to_dict()
+    name_to_id = pd.Series(sheet1_df.ID.values, index=sheet1_df.Name).to_dict()
     
     # Function to convert name to id if necessary
     def convert_to_id(value):
