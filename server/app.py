@@ -60,8 +60,23 @@ def recieve_data():
         
     
 ##IF GROUP IS ONE THING
-def list_filters(sheet1_df):
-    return sheet1_df['group'].unique()
+
+#right now returning one chosen group, return all groups, indicate which one chosen, in graph manager, switch which one you chose
+#only display which one user wanted
+#will be taking in a chosen group, will only display that one
+#can still filter by ones that aren't displayed\
+
+##WANT:
+#1. List group names
+#2. list options within chosen group (list_filters)
+#3. store original names as array and map them b
+
+def list_group_names(sheet1_df):
+    col_name_list = list(sheet1_df.columns.values)
+    return col_name_list[4:]
+
+def list_filters(sheet1_df, chosen_group_number):
+    return sheet1_df[chosen_group_number].unique()
 
 def filter_by_group(sheet1_df, sheet2_df, chosen_filter, chosen_group_number):
     #so here chosen_group_number will be like group1, group2 etc
@@ -83,7 +98,7 @@ def fix_naming(sheet1_df):
     sheet1_df.columns.values[3] = 'value'
 
     
-    group_columns = sheet1_df.columns[3:]
+    group_columns = sheet1_df.columns[4:]
     
     #gonna rename the other group columns to group1, group2, etc.
     for i, col in enumerate(group_columns, start=1):
