@@ -6,7 +6,7 @@ import json
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
-
+groupname=[]
 
 # https://stackoverflow.com/questions/31252791/flask-importerror-no-module-named-flask
 
@@ -33,11 +33,8 @@ def recieve_data():
         # sheet1_df = sheet1_df.iloc[:, :3]
         # sheet2_df = sheet2_df.iloc[:, :3]
         # Example processing
-        # test = fix_naming(sheet1_df)
+        sheet1_df = fix_naming(sheet1_df)
         sheet2_df = fix_edges(sheet1_df, sheet2_df)
-
-        # print("fix names:")
-        # print(test.head())
 
         print("Sheet 1 DataFrame:")
         print(sheet1_df.head())
@@ -71,9 +68,22 @@ def recieve_data():
 #can still filter by ones that aren't displayed\
 
 ##WANT:
-#1. List group names
-#2. list options within chosen group (list_filters)
-#3. store original names as array and map them b
+# 1. check for Multiple edges between two nodes, do this by taking each pair of "to" and "from", put in pair, alphabetize pair, 
+# check through linearly to see if pair has been there alredy, then add column "smooth" with dictionary value similar to mutual labels thing
+
+
+##ORDER OF STUFF:
+# step 1: sita creates endpoint to send groupnames which is made by fix_naming
+# step 2: sita sends response to front end so itll return chosen group name to filter by, comes back to another endpoint, this will be global var, 
+# step 3: jack makes his function to take this group name and have it correspond to group1/group2/group3, that gets put into list filters
+# step 4: get filter back, this will also have to be global var, ok then call filter_by_group with both filter you got back, and group number version of the group name
+
+def group_name_map(chosen_group_name):
+    if chosen_group_name in groupname:
+        index = groupname.index(chosen_group_name)
+        return f"group{index + 1}"
+    else:
+        return "Name not found"
 
 def mutual_labels(sheet):
 # Process 'mutual' column if it exists in sheet2_df
@@ -93,7 +103,7 @@ def filter_by_group(sheet1_df, sheet2_df, chosen_filter, chosen_group_number):
     #so here chosen_group_number will be like group1, group2 etc
     filtered_sheet1_df = sheet1_df[sheet1_df[chosen_group_number] == chosen_filter]
     
-    filtered_node_ids = filtered_sheet1_df['id'].tolist()
+    filtered_node_ids = filtered_sheet1_df['ID'].tolist()
     
     filtered_sheet2_df = sheet2_df[
         (sheet2_df['from'].isin(filtered_node_ids)) | 
@@ -104,53 +114,27 @@ def filter_by_group(sheet1_df, sheet2_df, chosen_filter, chosen_group_number):
 
 def fix_naming(sheet1_df):
     sheet = sheet1_df
-    sheet.columns.values[0] = 'id'
-    sheet.columns.values[1] = 'name'
-    sheet.columns.values[2] = 'label'
+    sheet.columns.values[0] = 'ID'
+    sheet.columns.values[1] = 'Name'
+    sheet.columns.values[2] = 'Label'
     sheet.columns.values[3] = 'value'
 
     
     group_columns = sheet.columns[4:]
-    
+    group_column_names = sheet.columns[4:].tolist()
+
     #gonna rename the other group columns to group1, group2, etc.
     for i, col in enumerate(group_columns, start=1):
         sheet.rename(columns={col: f'group{i}'}, inplace=True)
     
+    groupname = group_column_names
+    
     return sheet
 
-##IF GROUP IS ARRAY
-#need a diff list filters
-
-def filter_by_group_array(sheet1_df, sheet2_df, chosen_filter):
-    # Filter nodes by group
-    filtered_sheet1_df = sheet1_df[sheet1_df['groups'].apply(lambda x: chosen_filter in x)]
-    
-    # Get the ids of the filtered nodes
-    filtered_node_ids = filtered_sheet1_df['id'].tolist()
-    
-    # Filter relationships where at least one node is in the filtered group
-    filtered_sheet2_df = sheet2_df[
-        (sheet2_df['from'].isin(filtered_node_ids)) | 
-        (sheet2_df['to'].isin(filtered_node_ids))
-    ]
-    
-    return filtered_sheet1_df, filtered_sheet2_df
-
-def fix_naming_array(sheet1_df):
-    sheet1_df.columns.values[0] = 'id'
-    sheet1_df.columns.values[1] = 'name'
-    sheet1_df.columns.values[2] = 'label'
-    sheet1_df.columns.values[3] = 'value'
-    
-    # Create a new 'groups' column by aggregating all remaining columns into a list
-    sheet1_df['groups'] = sheet1_df.iloc[:, 4:].apply(lambda row: row.dropna().tolist(), axis=1)
-    
-    # Select only the required columns
-    fixed_sheet1_df = sheet1_df[['id', 'name', 'label', 'value', 'groups']]
-    
-    return fixed_sheet1_df
-
 def fix_edges(sheet1_df, sheet2_df):
+    sheet2_df.columns.values[0] = 'from'
+    sheet2_df.columns.values[1] = 'to'
+
     # Create a dictionary to map names to ids
     name_to_id = pd.Series(sheet1_df.ID.values, index=sheet1_df.Name).to_dict()
     
