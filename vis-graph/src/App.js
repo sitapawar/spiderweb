@@ -30,6 +30,7 @@ function App() {
         onResetClick={handleResetClick}
         showTableView={showTableView}
         toggleTableView={toggleTableView}
+        fileUploaded={fileUploaded}
       />
       <div className="Main">
         <Snake
