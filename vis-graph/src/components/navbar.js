@@ -10,9 +10,7 @@ const Navbar = ({ onUploadClick, onResetClick, showTableView, toggleTableView })
         <div className="navbar-title">Spiderweb</div>
       </div>
       <div className="navbar-buttons">
-        <button className="navbar-button" onClick={onResetClick}>Reset</button>
         <button className="navbar-button">Filter</button>
-        <button className="navbar-button">Group</button>
         <button className="navbar-button" onClick={onUploadClick}>Upload</button>
         <button className="navbar-button" onClick={toggleTableView}>
           {showTableView ? 'Hide Table View' : 'Show Table View'}

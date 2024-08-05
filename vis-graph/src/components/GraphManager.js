@@ -26,8 +26,9 @@ const GraphManager = ({ fileUploaded, setFileUploaded, showTableView }) => {
       // Process nodesData
       const processedNodes = nodesData.map(item => ({
         id: item.ID,
-        title: item.Title,
-        label: `Description: ${item.Label} Allegiance: ${item.group1}`,
+        label: item.Name,
+        title: `Description: ${item.Label} Group: ${item.group}`,
+        group: item.group
       }));
   
       // Process edgesData
