@@ -114,6 +114,17 @@ def adjust_edge_angles(sheet2_df):
     sheet2_df['iteration'] = sheet2_df.groupby('pair').cumcount() + 1
 
     sheet2_df = sheet2_df.drop(columns='pair')
+    sheet2_df['angle'] = sheet2_df['iteration'].map(
+    {
+        1: -0.4,
+        2: -0.2,
+        3: 0.0,
+        4: 0.2,
+        5: 0.4
+    }
+    )
+    #-40, -20, 0, 20, 40
+    sheet2_df = sheet2_df.drop(columns='iteration')
     return sheet2_df
 
 
@@ -156,6 +167,8 @@ def fix_edges(sheet1_df, sheet2_df):
     # Function to convert name to id if necessary
     sheet2_df['to'] = sheet2_df['to'].apply(lambda value: name_to_id.get(value, value))
     sheet2_df['from'] = sheet2_df['from'].apply(lambda value: name_to_id.get(value, value))
+
+    ##CALL FIX EDGES
     
     return sheet2_df
 
