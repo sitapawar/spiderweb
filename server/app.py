@@ -71,6 +71,7 @@ def get_filters():
 #     return jsonify(response)
 
 
+
 def group_name_map(chosen_group_name):
     global groupnames
     print(groupnames)
@@ -107,6 +108,13 @@ def list_filters(sheet1_df, chosen_group_number):
     # Ensure "True" comes first    
     return unique_values
 
+def adjust_edge_angles(sheet2_df):
+    sheet2_df['pair'] = sheet2_df.apply(lambda row: tuple(sorted([row['to'], row['from']])), axis=1)
+
+    sheet2_df['iteration'] = sheet2_df.groupby('pair').cumcount() + 1
+
+    sheet2_df = sheet2_df.drop(columns='pair')
+    return sheet2_df
 
 
 
