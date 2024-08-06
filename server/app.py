@@ -6,6 +6,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 groupnames = []
 sheet1_df = pd.DataFrame()  # Global variable to store sheet1 DataFrame
+sheet2_df = pd.DataFrame()  # Global variable to store sheet2 DataFrame
 
 @app.route('/')
 def home():
@@ -14,7 +15,7 @@ def home():
 
 @app.route("/recieve_data", methods=['POST', 'GET'])
 def recieve_data():
-    global sheet1_df, groupnames  # Ensure we're modifying the global variables
+    global sheet1_df, groupnames, sheet2_df  # Ensure we're modifying the global variables
     if request.method == "POST":
         data = request.get_json()  # Assuming the data is sent as JSON
 
@@ -56,6 +57,19 @@ def get_filters():
     filters = list_filters(sheet1_df, chosen_group_number)
     print(filters)
     return jsonify({'filters': filters.tolist()})
+
+# @app.route("/filtered_data", methods=['POST'])
+# def get_filtered_data():
+#     chosen_group_name = request.json.get('groupName')
+#     chosen_filter = request.json.get('filter')
+#     chosen_group_number = group_name_map(chosen_group_name)
+#     filtered_sheet1_df, filtered_sheet2_df = filter_by_group(sheet1_df, sheet2_df, chosen_filter, chosen_group_number)
+#     response = {
+#         'sheet1': filtered_sheet1_df.to_json(orient='records'),
+#         'sheet2': filtered_sheet2_df.to_json(orient='records')
+#     }
+#     return jsonify(response)
+
 
 def group_name_map(chosen_group_name):
     global groupnames

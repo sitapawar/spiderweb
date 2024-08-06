@@ -4,7 +4,7 @@ import TestGraph from './graphTest';
 import TableView from './TableView'; 
 import '../style/graphManager.css';
 
-const GraphManager = ({ fileUploaded, setFileUploaded, showTableView }) => {
+const GraphManager = ({ fileUploaded, setFileUploaded, showTableView, selectedFilter }) => {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
   const [allNodes, setAllNodes] = useState([]);

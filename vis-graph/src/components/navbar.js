@@ -58,14 +58,14 @@ const Navbar = ({ onUploadClick, onResetClick, showTableView, toggleTableView, f
                             <a href="#" key={index}>{filter}</a>
                           ))
                         ) : (
-                          <a href="#">Loading...</a>
+                          <a href="#">Filter not Found</a>
                         )}
                       </div>
                     )}
                   </div>
                 ))
               ) : (
-                <a href="#">Loading...</a>
+                <a href="#">Filter not Found</a>
               )
             ) : (
               <a href="#">No file uploaded</a>
