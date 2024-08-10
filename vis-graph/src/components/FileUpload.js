@@ -20,7 +20,7 @@ const FileUpload = ({ onFileProcessed }) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
 
-      fetch('http://127.0.0.1:5000/recieve_data', {
+      fetch('https://spiderweb-j1ca.onrender.com/recieve_data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

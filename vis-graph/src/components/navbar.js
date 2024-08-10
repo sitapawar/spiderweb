@@ -9,7 +9,7 @@ const Navbar = ({ onUploadClick, onResetClick, showTableView, toggleTableView, f
 
   useEffect(() => {
     if (fileUploaded) {
-      fetch("http://127.0.0.1:5000/group_names")
+      fetch("https://spiderweb-j1ca.onrender.com/group_names")
         .then(res => res.json())
         .then(data => {
           setGroupNames(data.groupNames);

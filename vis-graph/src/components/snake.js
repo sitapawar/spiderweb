@@ -9,7 +9,7 @@ class Snake extends React.Component {
   }
 
   callAPI() {
-    fetch("http://127.0.0.1:5000")
+    fetch("https://spiderweb-j1ca.onrender.com/")
       .then(res => {
         console.log('Response status:', res.status);
         return res.text().then(text => ({
@@ -32,7 +32,7 @@ class Snake extends React.Component {
   }
 
   render() {
-    const { fileUploaded, setFileUploaded, showTableView } = this.props; // Get props
+    const { fileUploaded, setFileUploaded, showTableView, selectedFilter } = this.props; // Get props
 
     return (
       <div className="Snake">
@@ -41,6 +41,7 @@ class Snake extends React.Component {
           fileUploaded={fileUploaded}
           setFileUploaded={setFileUploaded}
           showTableView={showTableView} // Pass showTableView to GraphManager
+          selectedFilter={selectedFilter}
         />
       </div>
     );
