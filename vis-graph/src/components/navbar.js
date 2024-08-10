@@ -22,7 +22,7 @@ const Navbar = ({ onUploadClick, onResetClick, showTableView, toggleTableView, f
 
   const handleGroupClick = (groupName) => {
     setSelectedGroup(groupName);
-    fetch("http://127.0.0.1:5000/filters", {
+    fetch("https://spiderweb-j1ca.onrender.com/filters", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ groupName })
