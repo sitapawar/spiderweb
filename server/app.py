@@ -58,17 +58,17 @@ def get_filters():
     print(filters)
     return jsonify({'filters': filters.tolist()})
 
-# @app.route("/filtered_data", methods=['POST'])
-# def get_filtered_data():
-#     chosen_group_name = request.json.get('groupName')
-#     chosen_filter = request.json.get('filter')
-#     chosen_group_number = group_name_map(chosen_group_name)
-#     filtered_sheet1_df, filtered_sheet2_df = filter_by_group(sheet1_df, sheet2_df, chosen_filter, chosen_group_number)
-#     response = {
-#         'sheet1': filtered_sheet1_df.to_json(orient='records'),
-#         'sheet2': filtered_sheet2_df.to_json(orient='records')
-#     }
-#     return jsonify(response)
+@app.route("/filtered_data", methods=['POST'])
+def get_filtered_data():
+    chosen_group_name = request.json.get('groupName')
+    chosen_filter = request.json.get('filter')
+    chosen_group_number = group_name_map(chosen_group_name)
+    filtered_sheet1_df, filtered_sheet2_df = filter_by_group(sheet1_df, sheet2_df, chosen_filter, chosen_group_number)
+    response = {
+        'sheet1': filtered_sheet1_df.to_json(orient='records'),
+        'sheet2': filtered_sheet2_df.to_json(orient='records')
+    }
+    return jsonify(response)
 
 
 
