@@ -134,7 +134,7 @@ def filter_by_group(sheet1_df, sheet2_df, chosen_filter, chosen_group_number):
     filtered_node_ids = filtered_sheet1_df['ID'].tolist()
     
     filtered_sheet2_df = sheet2_df[
-        (sheet2_df['from'].isin(filtered_node_ids)) | 
+        (sheet2_df['from'].isin(filtered_node_ids)) & 
         (sheet2_df['to'].isin(filtered_node_ids))
     ]
     
