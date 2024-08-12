@@ -140,6 +140,23 @@ def filter_by_group(sheet1_df, sheet2_df, chosen_filter, chosen_group_number):
     
     return filtered_sheet1_df, filtered_sheet2_df
 
+def filter_by_edges(sheet1_df, sheet2_df, chosen_edge_type):
+    filtered_sheet2_df = sheet2_df[sheet2_df["label"] == chosen_edge_type]
+    filtered_to_node_names = filtered_sheet2_df['to'].tolist()
+    filtered_from_node_names = filtered_sheet2_df['from'].tolist()
+    filtered_node_names = []
+
+    for node in filtered_to_node_names + filtered_from_node_names:
+        if node not in filtered_node_names:
+            filtered_node_names.append(node)
+
+    
+    filtered_sheet1_df = sheet1_df[
+        (sheet1_df['Name'].isin(filtered_node_names))
+    ]
+    
+    return filtered_sheet1_df, filtered_sheet2_df
+
 def fix_naming(sheet1_df):
     global groupnames
     sheet = sheet1_df
