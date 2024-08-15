@@ -21,7 +21,7 @@ const Navbar = ({onUploadClick, onResetClick, showTableView, toggleTableView, fi
   }, [fileUploaded]);
 
   const handleFilterClick = (groupName, filter) => {
-    fetch("http://127.0.0.1:5000/filtered_data", {
+    fetch("https://spiderweb-j1ca.onrender.com/filtered_data", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ groupName, filter })

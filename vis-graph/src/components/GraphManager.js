@@ -7,28 +7,42 @@ import '../style/graphManager.css';
 const GraphManager = ({ fileUploaded, setFileUploaded, showTableView, filteredData }) => {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
-  const [allNodes, setAllNodes] = useState([])
+  const [allNodes, setAllNodes] = useState([]);
+  const [allFilteredNodes, setAllFilteredNodes] = useState([]);
+  const [processedNodes, setprocessedNodes] = useState([]);
+  const [processedEdges, setprocessedEdges] = useState([]);
   const [viewType, setViewType] = useState('nodes'); // State to toggle between nodes and edges
 
   useEffect(() => {
     if (filteredData) {
       const nodesData = JSON.parse(filteredData.sheet1);
       const edgesData = JSON.parse(filteredData.sheet2);
-      const processedNodes = nodesData.map(item => ({
+      const filteredNodes = nodesData.map(item => ({
         id: item.ID,
         label: item.Name,
         title: `Description: ${item.Label} Group: ${item.group1}`,
         group: item.group1
       }));
-      const processedEdges = edgesData.map(item => ({
+      const filteredEdges = edgesData.map(item => ({
         from: item.from,
         to: item.to,
         label: item.label,
         arrows: item.arrows,
       }));
+      console.log(filteredNodes)
+      console.log(filteredEdges)
+      setNodes(filteredNodes);
+      setLinks(filteredEdges);
+      setAllFilteredNodes(nodesData)
+      // handleFileProcessed(filteredData);
+    }else{
+      console.log("reset")
       console.log(processedNodes)
       console.log(processedEdges)
-      // handleFileProcessed(filteredData);
+      setNodes([])
+      setLinks([])
+      setNodes(processedNodes)      
+      setLinks(processedEdges)
     }
     // console.log('Nodes:', nodes);
     // console.log('Links:', links);
@@ -42,7 +56,7 @@ const GraphManager = ({ fileUploaded, setFileUploaded, showTableView, filteredDa
       const edgesData = JSON.parse(serverData.sheet2);
 
       // Process nodesData
-      const processedNodes = nodesData.map(item => ({
+      const Pnodes = nodesData.map(item => ({
         id: item.ID,
         label: item.Name,
         title: `Description: ${item.Label} Group: ${item.group1}`,
@@ -50,7 +64,7 @@ const GraphManager = ({ fileUploaded, setFileUploaded, showTableView, filteredDa
       }));
   
       // Process edgesData
-      const processedEdges = edgesData.map(item => ({
+      const Pedges = edgesData.map(item => ({
         from: item.from,
         to: item.to,
         label: item.label,
@@ -58,10 +72,11 @@ const GraphManager = ({ fileUploaded, setFileUploaded, showTableView, filteredDa
       }));
   
       // Update the state with processed data
-      setNodes(processedNodes);
-      setLinks(processedEdges);
+      setNodes(Pnodes);
+      setLinks(Pedges);
+      setprocessedEdges(Pedges);
+      setprocessedNodes(Pnodes);
       setAllNodes(nodesData);
-
       // Set fileUploaded to true
       setFileUploaded(true);
     } catch (error) {
@@ -74,11 +89,22 @@ const GraphManager = ({ fileUploaded, setFileUploaded, showTableView, filteredDa
       {!fileUploaded && filteredData==null && <FileUpload onFileProcessed={handleFileProcessed} />}
       {fileUploaded && (
         <div className="graph-container">
-          <TestGraph nodes={nodes} edges={links} />
-          {showTableView && (
+          {filteredData==null && <TestGraph nodes={processedNodes} edges={processedEdges} />}
+          {filteredData!=null && <TestGraph nodes={nodes} edges={links} />}
+          {showTableView && filteredData==null &&(
             <div className="table-view-overlay">
               <TableView 
                 nodes={allNodes} 
+                edges={processedEdges} 
+                viewType={viewType}
+                setViewType={setViewType} // Pass the viewType and setter to TableView
+              />
+            </div>
+          )}
+          {showTableView && filteredData!=null &&(
+            <div className="table-view-overlay">
+              <TableView 
+                nodes={allFilteredNodes} 
                 edges={links} 
                 viewType={viewType}
                 setViewType={setViewType} // Pass the viewType and setter to TableView
