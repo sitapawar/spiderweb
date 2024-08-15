@@ -4,18 +4,36 @@ import TestGraph from './graphTest';
 import TableView from './TableView'; 
 import '../style/graphManager.css';
 
-const GraphManager = ({ fileUploaded, setFileUploaded, showTableView, selectedFilter }) => {
+const GraphManager = ({ fileUploaded, setFileUploaded, showTableView, filteredData }) => {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
-  const [allNodes, setAllNodes] = useState([]);
+  const [allNodes, setAllNodes] = useState([])
   const [viewType, setViewType] = useState('nodes'); // State to toggle between nodes and edges
 
   useEffect(() => {
-    console.log('Nodes:', nodes);
-    console.log('Links:', links);
-    console.log('All Nodes:', allNodes);
-
-  }, [nodes, links, allNodes]);
+    if (filteredData) {
+      const nodesData = JSON.parse(filteredData.sheet1);
+      const edgesData = JSON.parse(filteredData.sheet2);
+      const processedNodes = nodesData.map(item => ({
+        id: item.ID,
+        label: item.Name,
+        title: `Description: ${item.Label} Group: ${item.group1}`,
+        group: item.group1
+      }));
+      const processedEdges = edgesData.map(item => ({
+        from: item.from,
+        to: item.to,
+        label: item.label,
+        arrows: item.arrows,
+      }));
+      console.log(processedNodes)
+      console.log(processedEdges)
+      // handleFileProcessed(filteredData);
+    }
+    // console.log('Nodes:', nodes);
+    // console.log('Links:', links);
+    // console.log('All Nodes:', allNodes);
+  }, [filteredData]);
 
   const handleFileProcessed = (serverData) => {
     try {
@@ -53,7 +71,7 @@ const GraphManager = ({ fileUploaded, setFileUploaded, showTableView, selectedFi
 
   return (
     <div className="CenteredContent">
-      {!fileUploaded && <FileUpload onFileProcessed={handleFileProcessed} />}
+      {!fileUploaded && filteredData==null && <FileUpload onFileProcessed={handleFileProcessed} />}
       {fileUploaded && (
         <div className="graph-container">
           <TestGraph nodes={nodes} edges={links} />

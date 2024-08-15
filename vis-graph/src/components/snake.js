@@ -32,7 +32,7 @@ class Snake extends React.Component {
   }
 
   render() {
-    const { fileUploaded, setFileUploaded, showTableView, selectedFilter } = this.props; // Get props
+    const { fileUploaded, setFileUploaded, showTableView, filteredData} = this.props; // Get props
 
     return (
       <div className="Snake">
@@ -41,7 +41,7 @@ class Snake extends React.Component {
           fileUploaded={fileUploaded}
           setFileUploaded={setFileUploaded}
           showTableView={showTableView} // Pass showTableView to GraphManager
-          selectedFilter={selectedFilter}
+          filteredData={filteredData}
         />
       </div>
     );
