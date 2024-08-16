@@ -10,6 +10,7 @@ const TableView = ({ nodes, edges }) => {
 
   return (
     <div className="TableView">
+      <h2>{viewType === 'nodes' ? 'Character List' : 'Relationship List'}</h2>
       <button onClick={handleToggleView}>
         {viewType === 'nodes' ? 'Show Edges' : 'Show Nodes'}
       </button>
