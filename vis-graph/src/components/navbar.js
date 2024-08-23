@@ -6,6 +6,8 @@ const Navbar = ({onUploadClick, onResetClick, showTableView, toggleTableView, fi
   const [groupNames, setGroupNames] = useState([]);
   const [filters, setFilters] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
 
   useEffect(() => {
     if (fileUploaded) {
@@ -19,6 +21,10 @@ const Navbar = ({onUploadClick, onResetClick, showTableView, toggleTableView, fi
       setGroupNames([]);
     }
   }, [fileUploaded]);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
   const handleFilterClick = (groupName, filter) => {
     fetch("https://spiderweb-j1ca.onrender.com/filtered_data", {
@@ -96,6 +102,52 @@ const Navbar = ({onUploadClick, onResetClick, showTableView, toggleTableView, fi
         <button className="navbar-button" onClick={toggleTableView}>
           {showTableView ? 'Hide Table View' : 'Show Table View'}
         </button>
+      </div>
+            {/* Menu Icon for Small Screens */}
+            <div className="navbar-menu-icon" onClick={toggleDropdown}>
+        ☰
+      </div>
+
+      {/* Dropdown for Small Screens */}
+      <div className={`navbar-dropdown ${dropdownOpen ? 'show' : ''}`}>
+        <div className="navbar-button dropdown">
+          Filter
+          <div className="dropdown-content">
+            {fileUploaded ? (
+              groupNames.length > 0 ? (
+                groupNames.map((columnName, index) => (
+                  <div key={index} className="dropdown-item">
+                    <a className="groups" href="#" onClick={() => handleGroupClick(columnName)}>
+                      {columnName}
+                    </a>
+                    {selectedGroup === columnName && (
+                      <div className="dropdown-submenu">
+                        {filters.length > 0 ? (
+                          filters.map((filter, index) => (
+                            <a href="#" key={index} onClick={() => handleFilterClick(columnName, filter)}>
+                              {filter}
+                            </a>
+                          ))
+                        ) : (
+                          <a href="#">Filter not Found</a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <a href="#">Filter not Found</a>
+              )
+            ) : (
+              <a href="#">No file uploaded</a>
+            )}
+          </div>
+        </div>
+        <a href="#" onClick={handleResetClick}>Reset</a>
+        <a href="#" onClick={onUploadClick}>Upload</a>
+        <a href="#" onClick={toggleTableView}>
+          {showTableView ? 'Hide Table View' : 'Show Table View'}
+        </a>
       </div>
     </nav>
   );

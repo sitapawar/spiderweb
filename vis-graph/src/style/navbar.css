@@ -111,3 +111,82 @@ background-color: #f9f9f9;
 .dropdown-submenu a:hover {
   background-color: #D2D9E5;
 }
+
+.navbar-dropdown{
+  display: none; 
+}
+
+.navbar-menu-icon{
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .navbar-button {
+    font-size: 15px;
+    padding: 7px 10px;
+  }
+  .navbar-buttons {
+    gap: 1px;
+    margin-right: 10px;
+  }
+  
+}
+
+/* Media Query for Screen Width Less Than 580px */
+@media (max-width: 590px) {
+  .navbar-buttons {
+    display: none; /* Hide the navbar buttons */
+  }
+
+  
+  .navbar-menu-icon {
+    display: inline-block; /* Display the menu icon */
+    cursor: pointer;
+    color: #000;
+    font-size: 24px;
+    padding: 10px;
+  }
+  
+  .navbar-menu-icon:hover {
+    color: #516AB8;
+  }
+  
+  .navbar-dropdown {
+    display: none; /* Initially hide the dropdown */
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: #D2D9E5;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-left: 50%;
+  }
+  .dropdown-submenu {
+    left: 100%; /* Align to the right of the parent item */
+  }
+  .navbar-button.dropdown{
+    width: 100%;
+    font-size: 19px;
+    padding-left: 10%;
+    text-align: left;
+    padding-left: 20%;
+  }
+  
+  .navbar-dropdown.show {
+    display: block; /* Show the dropdown when active */
+  }
+  
+  .navbar-dropdown a {
+    display: block;
+    padding: 10px 20px;
+    color: #000;
+    text-decoration: none;
+    font-size: 19px;
+    padding-left: 20%;
+  }
+  
+  .navbar-dropdown a:hover {
+    background-color: #f9f9f9;
+    color: #000;
+  }
+}
